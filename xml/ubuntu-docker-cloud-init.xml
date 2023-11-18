@@ -1,0 +1,25 @@
+<!--The purpose of this is to setup my ubuntu docker machine-->
+# cloud-config
+users:
+  - name: rawrmonster
+    ssh-authorized-keys:
+      - |
+        -----BEGIN PUBLIC KEY-----
+        MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBKfG8KqlnZx9ARzUNndrfLVkAkr1a
+        WL4yLP+FKNN1Jvco3NY21+WHKlKoyJkReM/wkkEoaHwIyQcan9hbvMKVs0ABkLzq
+        8pATckW5/O00CCUIalP+kcO5MzjVJbOKmxJwOUx1ZrbAWVcLtqIiuAbVADZ+v6ZA
+        VAoNXumW5XC0sDP89hU=
+        -----END PUBLIC KEY-----
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+
+write_files:
+  - path: /etc/ssh/sshd_config
+    content: |
+      Port 2222  # Set your desired SSH port here
+    permissions: '0644'  # Adjust permissions as needed
+
+runcmd:
+  - apt update
+  - apt upgrade -y
+  - apt install -y openssh-server docker.io docker-compose
+  - systemctl restart ssh
